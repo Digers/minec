@@ -1,12 +1,14 @@
-local function function_name( sFile )
-    local request = http.get("http://netile.se/minec.php?"..
-        "apkey=m1nK3y&a=get_file&v="..sFile)
-
-    content = f.readAll()
-    f.close()
-    file = fs.open("filename", "w")
-    file.write(content)
-    file.close()
-
+local tArgs = { ... }
+if #tArgs < 1 then
+  print("Wrong arguments\n")
+  print("Usage: bootstrap key")
+  return
 end
 
+request = http.get("http://netile.se/minec.php?"..
+    "apkey=".. tArgs[1] .."&a=get_file&v=stage2")
+
+file = fs.open("stage2", "w")
+file.write(request.readAll())
+file.close()
+request.close()

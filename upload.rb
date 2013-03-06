@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'listen'
 
 module Minec
   extend self
@@ -16,11 +17,34 @@ module Minec
       :file => data
     ).body
 
-    puts response
+    #puts response
   end
 
 end
 
+FILES = ['stage2.lua', 'bootstrap.lua', 'controller.lua', 'lib.lua', 'main.lua']
+
+puts "Starting listener"
+# Listen to a single directory.
+Listen.to(
+  Dir.pwd,
+  :filter => /\.lua$/,
+  #:ignore => %r{ignored/path/},
+  #:force_polling => true,
+  :relative_paths => true
+) do |modified, added, removed|
+  puts "modified #{modified}"
+  modified.each do |file|
+    puts "Iterate over files?"
+    if FILES.include? file
+      puts "Will send: file #{file} to #{file.split('.')[0]}"
+      Minec.send_data(file.split('.')[0],     File.read(file))
+    end
+  end
+end
+
+exit
+Minec.send_data('stage2',     File.read('stage2.lua'))
 Minec.send_data('bootstrap',  File.read('bootstrap.lua'))
 Minec.send_data('controller', File.read('controller.lua'))
 Minec.send_data('lib',        File.read('lib.lua'))
