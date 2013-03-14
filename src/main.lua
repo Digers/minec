@@ -23,7 +23,7 @@ useInputs = {
     
 }
 
-useOutputs = {
+userOutputs = {
     tesseract = colors.green, --?
     workshop  = colors.red --?
 }
@@ -60,6 +60,7 @@ end
 function setLevel(sLevel)
     if sLevel == "0" then
       level(0)
+      resetWithMask(bitTable, 2, userOutputs["workshop"])
     end
     if sLevel == "1" then
       level(1)
@@ -85,11 +86,19 @@ end
 --    end
 --end
 
+local nuclearI = peripheral.wrap("back")
+_uuid,_state,_title,_info = nuclearI.get(1)
+print(_state)
+print(_title)
+print(_info)
+print(100*_info["amount"]/_info["capacity"])
+
 -- Setup
 os.startTimer(10)
 monitor.clear()
 setWithMask(bitTable, 1, prodOutputs["small_valve"])
 setWithMask(bitTable, 1, prodOutputs["large_valve"])
+setWithMask(bitTable, 2, userOutputs["workshop"])
 -- Main event machine
 while (1) do
     event, aarg = os.pullEvent()
@@ -114,13 +123,13 @@ while (1) do
         -- check reason
         -- TODO fix
     elseif event == "timer" then
-        setLevel(lib.getState("level"))
+        setLevel(lib.getState("m4st3r", "level"))
         os.startTimer(10)
         -- Request from server
     elseif event == "rednet_message" then
         -- Got event from terinal
     elseif event == "char" then
         setLevel(""..aarg)
-        lib.setState("level", ""..aarg)
+        lib.setState("m4st3r", "level", ""..aarg)
     end
 end

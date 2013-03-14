@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>MineC Adminstration</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="mcstyle.css">
+</head>
+<body>
+	<div id="main">
+    <div id="upper">
+        <h1>MineC administration util</h1>
+        <h2 class="right">Logged in as Test</h2>
+        <div id="debug" style="display:none">
+            <h3>debug options</h3>
+            minec.php?key=<span>&amp;k=<input id="k_arg" type="text"></span>
+        </div>
+    </div>
+    <script type="text/html" id="fileModifiers">
+        <span data-bind="if: showFileModifiers">
+            <a class="tagbtn2" href="" data-bind="css: fileRead, click: toggleReadFile">R</a>
+            <a class="tagbtn2" href="" data-bind="css: fileWrite, click: toggleWriteFile">W</a>
+            Alias: <a href="" data-bind="click: popupAlias, text:fileAlias">None</a>
+        </span>
+    </script>
+    <script type="text/html" id="stateModifiers">
+        <span data-bind="if: showStateModifiers">
+            <a class="tagbtn2" href="" data-bind="css: stateRead, click: toggleReadState">R</a>
+            <a class="tagbtn2" href="" data-bind="css: stateWrite, click: toggleWriteState">W</a>
+        </span>
+    </script>
+    <div id="tabs">
+    	<a href="#" class="selectedTab">Control</a> <a href="#">Debug</a>
+    </div>
+    <div id="control" class="tab">
+        <div data-bind="foreach: files" class="column">
+        		<div class="rowHeader">Stored files<span class="actions"><a href="">Delete</a><a href="">Add</a></span></div>
+            <div class="row" data-bind="css: isSelected">
+                <a href="#" data-bind="click: $root.selectItem">
+                    <span data-bind="text: name">File</span>
+                </a>
+                <span class="itemActions" data-bind="template: {name: 'fileModifiers'}">
+                <span data-bind="if: showFileModifiers">
+                    <a class="tagbtn2 on" href="" data-bind="css: fileRead, click: toggleReadFile">R</a>
+                    <a class="tagbtn2 off" href="" data-bind="css: fileWrite, click: toggleWriteFile">W</a>
+                    Alias: <a href="" data-bind="click: popupAlias, text:fileAlias">None</a>
+                </span>
+                </span>
+            </div><a class="outOfBorderAction" href="#">Delete</a><br>
+        </div>
+        <div data-bind="foreach: keys" class="column">
+        	<div class="rowHeader">Stored keys<span class="actions"><a href="">Add</a></span></div>
+            <div class="row" data-bind="css: isSelected">
+                <a href="#" data-bind="click: $root.selectItem">
+                    <span data-bind="text: name"></span>
+                </a>
+                Key:<span data-bind="text: key">some_long_key</span>
+                <span class="right" data-bind="template: {name: 'fileModifiers'}"></span>
+                <span class="right" data-bind="template: {name: 'stateModifiers'}"></span>
+                <span class="itemActions" data-bind="template: {name: 'fileModifiers'}">
+                <span data-bind="if: showFileModifiers">
+                    <a class="tagbtn2 on" href="" data-bind="css: fileRead, click: toggleReadFile">R</a>
+                    <a class="tagbtn2 off" href="" data-bind="css: fileWrite, click: toggleWriteFile">W</a>
+                    Alias: <a href="" data-bind="click: popupAlias, text:fileAlias">long_file_name</a>
+                </span>
+                </span>
+            </div><br>
+            <div class="row selected">
+                <a href="#" data-bind="click: $root.selectItem">
+                    <span data-bind="text: name"></span>
+                </a>
+                Key:<span data-bind="text: key"></span>
+                <span class="right" data-bind="template: {name: 'fileModifiers'}"></span>
+                <span class="right" data-bind="template: {name: 'stateModifiers'}"></span>
+            </div><br>
+        </div>
+        <div data-bind="foreach: states" class="column">
+        	<div class="rowHeader">Stored states<span class="actions"><a href="">Add</a></span></div>
+            <div class="row" data-bind="css: isSelected">
+                <a href="#" data-bind="click: $root.selectItem, text: state"></a>
+                <a href="" data-bind="click: updateState">State:<span data-bind="text: value"></span></a>
+                <span class="right" data-bind="template: {name: 'stateModifiers'}">
+            </div><br>
+        </div>
+    </div>
+    </div>
+    <div id="bottom">Statistics</div>
+    </body>
+    </html>

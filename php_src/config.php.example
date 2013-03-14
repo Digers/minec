@@ -1,0 +1,6 @@
+<?php
+/* php config file */
+$MASTER_KEY = 'Some_key';
+$DATABASE   = 'path/to/sqlite.db';
+
+?>

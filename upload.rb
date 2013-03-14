@@ -17,12 +17,20 @@ module Minec
       :file => data
     ).body
 
-    #puts response
+    puts response
   end
 
 end
 
-FILES = ['stage2.lua', 'bootstrap.lua', 'controller.lua', 'lib.lua', 'main.lua']
+FILES = [
+  'stage2.lua',
+  'bootstrap.lua',
+  'controller.lua',
+  'lib.lua',
+  'main.lua',
+  'gui.lua',
+  'monitor_main.lua',
+  'monitor_stage2.lua']
 
 puts "Starting listener"
 # Listen to a single directory.
